@@ -1,4 +1,4 @@
-export const WHATSAPP_PHONE = '5519999206746'; // +55 19 99920-6746
+export const WHATSAPP_PHONE = '5519993314310'; // +55 19 99331-4310
 
 export function getWhatsAppUrl(customMessage?: string): string {
   let message = customMessage;

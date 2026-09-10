@@ -7,7 +7,7 @@ export default function OurStores() {
       name: "Loja Castelo",
       address: "Avenida Francisco José de Camargo Andrade, 520\nJardim Chapadão – Campinas – SP",
       mapLink: "https://maps.app.goo.gl/8n9n6n9n6n9n6n9n6",
-      phone: "(19) 3217-8850",
+      phone: "(19) 99331-4310",
       image: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEHsEkatt5BvnAPaWvepD0i9WjrLR4SwZeL8G_Z5zET6vLp1QgDevys3gfZasWGSbBlhahXvdZcY7by_V4jX1cxDo81J5adzrXkzsjO_0tH89fLoyRNZL52Zm9YaYqVYNHCTQjb1w=s680-w680-h510"
     }
   ];
@@ -43,7 +43,7 @@ export default function OurStores() {
                 </a>
                 
                 <a 
-                  href={`https://api.whatsapp.com/send?phone=5519999206746&text=${encodeURIComponent('Olá, gostaria de falar com um consultor da ' + store.name)}`}
+                  href={`https://api.whatsapp.com/send?phone=5519993314310&text=${encodeURIComponent('Olá, gostaria de falar com um consultor da ' + store.name)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="comic-button"

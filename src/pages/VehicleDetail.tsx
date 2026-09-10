@@ -479,11 +479,11 @@ export default function VehicleDetail() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
             
             <a 
-              href="tel:1932178850"
+              href="tel:19993314310"
               className="flex-1 w-full bg-transparent border border-white/20 hover:bg-white/10 text-white font-medium py-2.5 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
             >
               <Phone className="w-4 h-4" />
-              Ligue agora: (19) 3217-8850
+              Ligue agora: (19) 99331-4310
             </a>
 
             <a 

@@ -49,7 +49,7 @@ export default function Footer() {
             <h4 className="font-bold text-base mb-6 pb-2 border-b border-blue-600/50 block w-full max-w-[200px]">Entre em contato</h4>
             <div className="flex flex-col gap-4 text-sm opacity-90">
               <p>contato@unimaisveiculos.com.br</p>
-              <p>Fone: (19) 3217-8850</p>
+              <p>Fone: (19) 99331-4310</p>
               
               <div className="mt-4 space-y-6">
                 <div>

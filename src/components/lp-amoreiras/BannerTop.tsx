@@ -5,12 +5,12 @@ import { openWhatsApp } from '../../utils/whatsapp';
 
 const banners = [
   {
-    src: 'https://res.cloudinary.com/ifuatk2z/image/upload/v1788979204/bannerUnimaisDomicio2.png',
+    src: 'https://res.cloudinary.com/ifuatk2z/image/upload/v1789070446/bannerUnimaisDomicio2-_1_111.png',
     btnText: 'Fale com especialista',
     btnPosition: 'left'
   },
   {
-    src: 'https://res.cloudinary.com/ifuatk2z/image/upload/v1788979199/bannerUnimaisDomicio1.png',
+    src: 'https://res.cloudinary.com/ifuatk2z/image/upload/v1789070447/bannerUnimaisDomicio2-_1_222.png',
     btnText: 'Fale com especialista',
     btnPosition: 'right'
   }
@@ -57,7 +57,7 @@ export default function BannerTop() {
             <div className={`absolute bottom-2 md:bottom-4 lg:bottom-6 ${banner.btnPosition === 'right' ? 'right-4 md:right-8 lg:right-16' : 'left-4 md:left-8 lg:left-16'} z-20`}>
               <button
                 onClick={handleOpenWhatsApp}
-                className="bg-action-orange hover:bg-orange-600 text-white font-bold py-1.5 px-4 md:py-2 md:px-6 rounded-lg shadow-xl transition-transform hover:scale-105 text-xs md:text-sm lg:text-base uppercase tracking-wide flex items-center justify-center gap-1.5 font-black"
+                className="bg-whatsapp-green hover:bg-green-600 text-white font-bold py-1.5 px-4 md:py-2 md:px-6 rounded-lg shadow-xl transition-transform hover:scale-105 text-xs md:text-sm lg:text-base uppercase tracking-wide flex items-center justify-center gap-1.5 font-black"
               >
                 <WhatsAppIcon className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
                 {banner.btnText}

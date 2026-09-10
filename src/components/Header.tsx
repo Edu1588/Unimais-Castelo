@@ -96,7 +96,7 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <button className="hidden md:flex items-center gap-2 text-primary hover:text-action-orange transition-colors">
             <Phone className="w-5 h-5" />
-            <span className="font-label-lg text-label-lg">(19) 3217-8850</span>
+            <span className="font-label-lg text-label-lg">(19) 99331-4310</span>
           </button>
           <a className="hidden md:inline-flex bg-action-orange text-white px-6 py-2 rounded-lg font-label-lg text-label-lg hover:bg-orange-600 transition-colors shadow-sm" href="#" onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent("openTradeInModal")); }}>Avaliar Grátis</a>
           <button className="lg:hidden text-primary">

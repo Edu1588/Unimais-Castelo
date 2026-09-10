@@ -18,9 +18,9 @@ export default function CTA() {
               <WhatsAppIcon className="w-6 h-6" />
               Chamar no WhatsApp
             </button>
-            <a className="bg-white text-primary px-8 py-4 rounded-xl font-label-lg text-label-lg hover:bg-surface-gray transition-colors border border-outline-variant flex items-center justify-center gap-2" href="tel:1932178850">
+            <a className="bg-white text-primary px-8 py-4 rounded-xl font-label-lg text-label-lg hover:bg-surface-gray transition-colors border border-outline-variant flex items-center justify-center gap-2" href="tel:19993314310">
               <Phone className="w-6 h-6" />
-              Ligar (19) 3217-8850
+              Ligar (19) 99331-4310
             </a>
           </div>
         </div>

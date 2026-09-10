@@ -83,7 +83,7 @@ export default function MobileNav() {
         <span className="text-[10px]">WhatsApp</span>
       </button>
 
-      <a className="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-transform font-label-md" href="tel:1932178850">
+      <a className="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-transform font-label-md" href="tel:19993314310">
         <Phone className="w-5 h-5 mb-1" />
         <span className="text-[10px]">Ligar</span>
       </a>

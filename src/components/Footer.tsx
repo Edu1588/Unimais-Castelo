@@ -5,8 +5,8 @@ import { openWhatsApp } from '../utils/whatsapp';
 
 export default function Footer() {
   return (
-    <footer className="w-full py-16 bg-primary text-white">
-      <div className="px-gutter max-w-max-width mx-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+    <footer className="w-full bg-primary text-white">
+      <div className="py-16 px-gutter max-w-max-width mx-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
         
         <div className="lg:col-span-4 flex flex-col gap-6">
           <img 
@@ -65,6 +65,15 @@ export default function Footer() {
             <a href="https://www.instagram.com/unimais_veiculos" target="_blank" rel="noopener noreferrer" className="hover:text-action-orange transition-colors"><Instagram className="w-5 h-5" /></a>
             <button onClick={() => openWhatsApp()} className="hover:text-action-orange transition-colors bg-transparent border-none p-0 cursor-pointer"><WhatsAppIcon className="w-5 h-5" /></button>
           </div>
+        </div>
+      </div>
+
+      <div className="border-t border-white/10 mt-8 md:mt-0">
+        <div className="max-w-max-width mx-margin-desktop px-gutter py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs md:text-sm text-white/70">
+          <p>© {new Date().getFullYear()} Unimais Veículos. Todos os direitos reservados.</p>
+          <p>
+            Desenvolvido por <a href="https://www.fabricapublicidade.com.br/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors font-medium">Fábrica Publicidade & Digital</a>
+          </p>
         </div>
       </div>
     </footer>

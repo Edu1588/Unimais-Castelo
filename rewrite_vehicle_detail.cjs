@@ -1,0 +1,407 @@
+const fs = require('fs');
+
+let content = fs.readFileSync('src/pages/VehicleDetail.tsx', 'utf-8');
+
+// We will recreate the page structure since it's fundamentally changing.
+// Let's first ensure we have ChevronRight imported.
+if (!content.includes('ChevronRight')) {
+  content = content.replace(
+    "import { ChevronLeft, CheckCircle2, ShieldCheck, Calendar, Gauge, Phone, Mail } from 'lucide-react';",
+    "import { ChevronLeft, ChevronRight, CheckCircle2, ShieldCheck, Calendar, Gauge, Phone, Mail } from 'lucide-react';"
+  );
+}
+
+// Ensure use ref for scrolling
+if (!content.includes('useRef<HTMLDivElement>')) {
+    content = content.replace(
+      "const formRef = React.useRef<HTMLFormElement>(null);",
+      "const formRef = React.useRef<HTMLFormElement>(null);\n  const galleryRef = React.useRef<HTMLDivElement>(null);"
+    );
+}
+
+// Add state for 'hasTradeInCar'
+if (!content.includes('hasTradeInCar')) {
+    content = content.replace(
+      "const [formSubmitted, setFormSubmitted] = useState(false);",
+      "const [formSubmitted, setFormSubmitted] = useState(false);\n  const [hasTradeInCar, setHasTradeInCar] = useState(false);"
+    );
+}
+
+// Add scroll helpers
+const scrollHelpers = `
+  const scrollPrev = () => {
+    if (galleryRef.current) {
+      galleryRef.current.scrollBy({ left: -galleryRef.current.offsetWidth / 2, behavior: 'smooth' });
+    }
+  };
+
+  const scrollNext = () => {
+    if (galleryRef.current) {
+      galleryRef.current.scrollBy({ left: galleryRef.current.offsetWidth / 2, behavior: 'smooth' });
+    }
+  };
+`;
+
+if(!content.includes('scrollPrev')) {
+    content = content.replace("useEffect(() => {\n    window.scrollTo(0, 0);\n  }, []);", "useEffect(() => {\n    window.scrollTo(0, 0);\n  }, []);\n" + scrollHelpers);
+}
+
+
+// Now we rewrite the return statement.
+const newReturn = `  return (
+    <div className="bg-slate-50 min-h-screen pb-24">
+      {/* Top Bar */}
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
+        <Link to="/" className="inline-flex items-center gap-2 text-slate-900 hover:text-blue-600 transition-colors text-sm font-bold">
+          <ChevronLeft className="w-4 h-4" />
+          Voltar para o estoque
+        </Link>
+      </div>
+
+      {/* Full Width Image Gallery (Carousel) */}
+      <div className="relative w-full h-[300px] md:h-[450px] mb-8 bg-slate-100 group">
+        <div 
+          ref={galleryRef}
+          className="flex h-full overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {vehicle.images.map((img, idx) => (
+            <div key={idx} className="min-w-full md:min-w-[60%] lg:min-w-[40%] h-full shrink-0 snap-center px-1">
+              <img
+                src={img}
+                alt={vehicle.fullTitle}
+                className="w-full h-full object-cover rounded-lg shadow-sm"
+              />
+            </div>
+          ))}
+        </div>
+        
+        {/* Gallery Controls */}
+        <button 
+          onClick={scrollPrev}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 text-slate-900 p-3 rounded-full hover:bg-white shadow-lg z-10 transition-transform hover:scale-105"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button 
+          onClick={scrollNext}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 text-slate-900 p-3 rounded-full hover:bg-white shadow-lg z-10 transition-transform hover:scale-105"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      </div>
+
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Column - Details */}
+          <div className="lg:col-span-8 space-y-6">
+            
+            {/* Title & Specs Container */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0543C8] tracking-tight leading-tight uppercase">
+                  {vehicle.fullTitle}
+                </h1>
+                <p className="text-slate-900 font-medium text-sm sm:text-base mt-2 uppercase">
+                  {vehicle.version}
+                </p>
+                
+                {/* Year & Mileage Specs Row */}
+                <div className="flex items-center gap-6 text-slate-900 text-lg mt-4 pt-2">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-[#0543C8]" />
+                    <span className="font-medium">{vehicle.year}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Gauge className="w-5 h-5 text-[#0543C8]" />
+                    <span className="font-medium">{lazyKm === null ? 'Buscando...' : lazyKm === undefined ? 'Consulte' : lazyKm === 0 ? '0 KM' : \`\${lazyKm.toLocaleString('pt-BR')} KM\`}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <button 
+                onClick={() => setIsTradeInModalOpen(true)}
+                className="w-full md:w-auto bg-[#0543C8] hover:bg-blue-800 text-white font-bold py-4 px-8 rounded-xl transition-colors text-sm uppercase tracking-wide shrink-0 shadow-md"
+              >
+                Avalie seu carro<br/>na troca
+              </button>
+            </div>
+
+            {/* Tech Specs Summary */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-y-6 gap-x-4 text-center">
+                <div>
+                  <span className="text-slate-400 block text-[11px] font-medium uppercase tracking-wider mb-1">KM</span>
+                  <strong className="text-slate-900 font-extrabold text-sm sm:text-base">
+                    {lazyKm === null ? 'Buscando...' : lazyKm === undefined ? 'Consulte' : lazyKm === 0 ? '0' : lazyKm.toLocaleString('pt-BR')}
+                  </strong>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[11px] font-medium uppercase tracking-wider mb-1">Combustível</span>
+                  <strong className="text-slate-900 font-extrabold text-sm sm:text-base capitalize">{vehicle.fuel}</strong>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[11px] font-medium uppercase tracking-wider mb-1">Ano</span>
+                  <strong className="text-slate-900 font-extrabold text-sm sm:text-base">{vehicle.year}</strong>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[11px] font-medium uppercase tracking-wider mb-1">Câmbio</span>
+                  <strong className="text-slate-900 font-extrabold text-sm sm:text-base capitalize">{vehicle.transmission}</strong>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[11px] font-medium uppercase tracking-wider mb-1">Portas</span>
+                  <strong className="text-slate-900 font-extrabold text-sm sm:text-base">4</strong>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[11px] font-medium uppercase tracking-wider mb-1">Cor</span>
+                  <strong className="text-slate-900 font-extrabold text-sm sm:text-base capitalize">{vehicle.color}</strong>
+                </div>
+              </div>
+              
+              <div className="mt-8 text-xs text-slate-500 leading-relaxed border-t border-slate-100 pt-6 space-y-1">
+                <p>*Informações a respeito de quilometragem e opcionais, favor entrar em contato com a equipe de vendas.</p>
+                <p>*Nos reservamos o direito de corrigir, possíveis erros de digitação e/ou publicação.</p>
+                <p className="uppercase">*Os valores dos veículos são para pagamento à vista, sem troca.</p>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+              <h2 className="text-sm font-extrabold text-slate-400 mb-4 uppercase tracking-wider">Sobre este carro</h2>
+              <div className="text-slate-700 text-sm leading-relaxed space-y-4">
+                <p>
+                  VALOR ANUNCIADO VÁLIDO PARA COMPRA SEM TROCA. Todos os nossos carros são PERICIADOS, REVISADOS E COM GARANTIA DE 1 ANO. 
+                  Trabalhamos com TODAS AS FINANCEIRAS BANCÁRIAS. Fazemos TROCA COM TROCO, PARCELAMOS A ENTRADA NO CARTÃO DE CRÉDITO e FACILITAMOS SUA APROVAÇÃO NO FINANCIAMENTO. 
+                  Nossos veículos possuem HISTÓRICO DE REVISÕES COMPLETO e VISTORIA CAUTELAR APROVADA. PIONEIROS NA REGIÃO DO VALE, com + DE 27 ANOS DE TRADIÇÃO E CONFIANÇA NO MERCADO AUTOMOTIVO.
+                  consulte condições, sujeito a erros.
+                </p>
+              </div>
+
+              {vehicle.isInspected && (
+                <div className="mt-8 bg-slate-50 border border-slate-100 rounded-xl p-5 flex items-start sm:items-center gap-4">
+                  <ShieldCheck className="w-6 h-6 text-blue-600 shrink-0" />
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900">Denunciar anúncio do veículo</h3>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Features */}
+            {vehicle.features && vehicle.features.length > 0 && (
+              <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 className="text-[15px] font-black text-slate-900 mb-6 uppercase tracking-wider inline-block border-b-2 border-action-orange pb-1">
+                  Itens do veículo
+                </h2>
+                <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-5 gap-x-6 text-sm text-slate-700">
+                  {vehicle.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-center gap-2">
+                      <span className="w-1 h-1 bg-slate-300 rounded-full shrink-0"></span>
+                      <span className="leading-tight">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            {/* Vistoria Section */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+              <div className="flex items-center gap-2 mb-6">
+                <CheckCircle2 className="w-5 h-5 text-[#2C2E38]" />
+                <h2 className="text-[15px] font-black text-slate-900 uppercase tracking-wider">Vistoriado</h2>
+              </div>
+              <p className="text-slate-600 text-sm mb-6">
+                Confiança e tranquilidade na compra do seu seminovo.
+              </p>
+              <h3 className="font-bold text-slate-900 text-sm mb-4">Diversos itens inspecionados</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-700 mb-6">
+                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#2C2E38]" /> Estrutura</div>
+                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#2C2E38]" /> Interior</div>
+                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#2C2E38]" /> Indício de sinistro</div>
+                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#2C2E38]" /> Débitos</div>
+                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#2C2E38]" /> Funilaria</div>
+                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#2C2E38]" /> Restrições</div>
+              </div>
+              <p className="text-sm font-medium text-slate-900 mb-6">Você mais seguro na hora de fechar o negócio!</p>
+              <button className="bg-[#2C2E38] hover:bg-[#1E2028] text-white font-bold py-3 px-6 rounded-lg transition-colors text-sm">
+                Visualizar laudo
+              </button>
+            </div>
+            
+          </div>
+
+          {/* Right Column - Sticky Lead Form */}
+          <div className="lg:col-span-4 relative">
+            <div className="sticky top-6 space-y-6">
+              
+              <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-xl shadow-slate-200/50">
+                <div className="flex items-start justify-between mb-8 gap-4">
+                  <div>
+                    <h2 className="text-3xl font-black text-[#04163D] tracking-tight">
+                      {formatCurrency(vehicle.price)}
+                    </h2>
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={() => setShowSimulation(!showSimulation)}
+                    className="bg-[#0543C8] hover:bg-blue-800 text-white text-[11px] font-bold px-4 py-2.5 rounded-lg whitespace-nowrap transition-colors"
+                  >
+                    Ver parcelas
+                  </button>
+                </div>
+
+                {showSimulation && (
+                  <div className="mb-6 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <h4 className="font-bold text-sm text-slate-900 mb-3">Simulação de Financiamento</h4>
+                    <div className="space-y-2 text-sm text-slate-600">
+                      <div className="flex justify-between">
+                        <span>Valor do veículo:</span>
+                        <span className="font-medium">{formatCurrency(vehicle.price)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Entrada (40%):</span>
+                        <span className="font-medium text-green-600">{formatCurrency(vehicle.price * 0.4)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Valor financiado (60%):</span>
+                        <span className="font-medium">{formatCurrency(vehicle.price * 0.6)}</span>
+                      </div>
+                      <div className="flex justify-between pt-2 border-t border-slate-200 mt-2">
+                        <span>Prazo / Taxa:</span>
+                        <span className="font-medium">60x de 1,19% a.m.</span>
+                      </div>
+                      <div className="flex justify-between bg-white p-3 rounded-lg border border-slate-200 mt-3 shadow-sm">
+                        <span className="font-bold text-slate-900">Parcela mensal:</span>
+                        <span className="font-bold text-[#0543C8]">{formatCurrency(vehicle.monthlyInstallment)}</span>
+                      </div>
+                      <p className="text-[10px] text-slate-400 mt-2 leading-tight">
+                        *Valores aproximados. Sujeito à análise de crédito e aprovação pela instituição financeira.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                <p className="text-sm text-slate-500 mb-4 font-medium">Envie uma mensagem ao vendedor</p>
+                
+                <form ref={formRef} onSubmit={handleSubmitLead} className="space-y-4">
+                  <div>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Nome*"
+                      value={name}
+                      onChange={e => setName(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-lg px-4 py-3.5 text-sm text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-[#0543C8] focus:border-transparent outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="email"
+                      required
+                      placeholder="E-mail*"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-lg px-4 py-3.5 text-sm text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-[#0543C8] focus:border-transparent outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="Telefone*"
+                      value={phone}
+                      onChange={e => setPhone(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-lg px-4 py-3.5 text-sm text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-[#0543C8] focus:border-transparent outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <textarea
+                      required
+                      placeholder="Mensagem*"
+                      rows={3}
+                      value={message}
+                      onChange={e => setMessage(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-lg px-4 py-3.5 text-sm text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-[#0543C8] focus:border-transparent outline-none transition-all resize-none"
+                    />
+                  </div>
+                  
+                  <label className="flex items-start gap-3 mt-4 cursor-pointer group">
+                    <input 
+                      type="checkbox" 
+                      className="mt-0.5 rounded border-slate-300 text-[#0543C8] focus:ring-[#0543C8]" 
+                      checked={hasTradeInCar}
+                      onChange={e => setHasTradeInCar(e.target.checked)}
+                    />
+                    <span className="text-xs text-slate-500 group-hover:text-slate-700 leading-relaxed">
+                      Tenho carro na troca
+                    </span>
+                  </label>
+
+                  <label className="flex items-start gap-3 mt-2 cursor-pointer group">
+                    <input type="checkbox" className="mt-0.5 rounded border-slate-300 text-[#0543C8] focus:ring-[#0543C8]" />
+                    <span className="text-xs text-slate-500 group-hover:text-slate-700 leading-relaxed">
+                      Quero receber contatos por e-mail, WhatsApp e outros canais.
+                    </span>
+                  </label>
+                  
+                  <button
+                    type="submit"
+                    className="w-full bg-[#2C2E38] hover:bg-[#1E2028] text-white font-bold py-4 rounded-lg transition-colors mt-2"
+                  >
+                    Enviar mensagem
+                  </button>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Fixed Bottom Action Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-[#04163D] shadow-[0_-4px_10px_rgba(0,0,0,0.1)] z-50">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+            
+            <a 
+              href="tel:1937271000"
+              className="flex-1 w-full bg-transparent border border-white/20 hover:bg-white/10 text-white font-medium py-2.5 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
+            >
+              <Phone className="w-4 h-4" />
+              Ligue agora: (19) 3727-1000
+            </a>
+
+            <a 
+              href="mailto:contato@unimaisveiculos.com.br"
+              className="flex-1 w-full bg-transparent border border-white/20 hover:bg-white/10 text-white font-medium py-2.5 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
+            >
+              <Mail className="w-4 h-4" />
+              Atendimento por Email
+            </a>
+
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent('openWhatsAppModal'))}
+              className="flex-1 w-full bg-transparent border border-white/20 hover:bg-white/10 text-white font-medium py-2.5 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
+            >
+              <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+              Atendimento via WhatsApp
+            </button>
+
+          </div>
+        </div>
+      </div>
+      
+      <TradeInModal isOpen={isTradeInModalOpen} onClose={() => setIsTradeInModalOpen(false)} />
+    </div>
+  );
+}
+`;
+
+const returnIndex = content.indexOf('  return (');
+if (returnIndex !== -1) {
+    content = content.substring(0, returnIndex) + newReturn;
+}
+
+fs.writeFileSync('src/pages/VehicleDetail.tsx', content);
+console.log('Done rewriting VehicleDetail');

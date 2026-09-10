@@ -1,0 +1,8 @@
+{
+  "name": "Unimais castelo",
+  "description": "Landing page para venda e avaliação de veículos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

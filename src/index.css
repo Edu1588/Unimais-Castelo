@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=Inter:wght@400;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0e2048;
+  --color-primary-fixed: #d6e3ff;
+  --color-primary-fixed-dim: #a9c7ff;
+  --color-primary-container: #2b4c7e;
+  --color-inverse-primary: #a9c7ff;
+  --color-action-orange: #FF6B00;
+  --color-surface: #faf9fe;
+  --color-surface-gray: #F8FAFC;
+  --color-inverse-surface: #2f3034;
+  --color-on-surface: #1a1c1f;
+  --color-on-surface-variant: #43474f;
+  --color-outline: #747780;
+  --color-outline-variant: #c3c6d0;
+  --color-whatsapp-green: #25D366;
+  --color-deep-navy: #0e2048;
+  --color-surface-container-highest: #e3e2e7;
+  --color-surface-container-high: #e8e7ec;
+  --color-white: #ffffff;
+
+  --spacing-gutter: 24px;
+  --spacing-section-mobile: 64px;
+  --spacing-section-desktop: 120px;
+  --spacing-margin-desktop: auto;
+  --spacing-max-width: 1280px;
+
+  --font-headline-lg: "Hanken Grotesk", sans-serif;
+  --font-body-md: "Inter", sans-serif;
+  --font-headline-sm: "Hanken Grotesk", sans-serif;
+  --font-body-lg: "Inter", sans-serif;
+  --font-headline-md: "Hanken Grotesk", sans-serif;
+  --font-label-md: "Hanken Grotesk", sans-serif;
+  --font-label-lg: "Hanken Grotesk", sans-serif;
+  --font-headline-lg-mobile: "Hanken Grotesk", sans-serif;
+
+  --text-headline-lg: 48px;
+  --text-headline-lg--line-height: 56px;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 800;
+
+  --text-headline-lg-mobile: 32px;
+  --text-headline-lg-mobile--line-height: 38px;
+  --text-headline-lg-mobile--letter-spacing: -0.01em;
+  --text-headline-lg-mobile--font-weight: 800;
+
+  --text-headline-md: 32px;
+  --text-headline-md--line-height: 40px;
+  --text-headline-md--font-weight: 700;
+
+  --text-headline-sm: 24px;
+  --text-headline-sm--line-height: 32px;
+  --text-headline-sm--font-weight: 700;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--font-weight: 400;
+
+  --text-label-lg: 16px;
+  --text-label-lg--line-height: 20px;
+  --text-label-lg--font-weight: 600;
+
+  --text-label-md: 14px;
+  --text-label-md--line-height: 18px;
+  --text-label-md--font-weight: 600;
+}
+
+.comic-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #FF6B00;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 4px 4px 0px #000;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+}
+
+.comic-button:hover {
+  color: #000;
+}
+
+.comic-button:active {
+  background-color: #fcf414;
+  box-shadow: none;
+  transform: translateY(4px);
+}
+
